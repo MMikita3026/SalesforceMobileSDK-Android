@@ -77,9 +77,7 @@ public abstract class SalesforceReactActivity extends ReactActivity implements S
      * Called if shouldAuthenticate() returned true but device is offline.
      */
     public void onErrorAuthenticateOffline() {
-        final Toast t = Toast.makeText(this,
-                R.string.sf__should_authenticate_but_is_offline, Toast.LENGTH_LONG);
-        t.show();
+        SalesforceReactActivity.this.restartReactNativeApp();
     }
 
     @Override
@@ -268,7 +266,7 @@ public abstract class SalesforceReactActivity extends ReactActivity implements S
     }
 
     protected boolean shouldReactBeRunning() {
-        return !shouldAskOverlayPermission() && (!shouldAuthenticate() || client != null);
+        return !shouldAskOverlayPermission() && (!shouldAuthenticate() || client != null || !SalesforceReactSDKManager.getInstance().hasNetwork());
     }
 
     protected void restartReactNativeApp() {
